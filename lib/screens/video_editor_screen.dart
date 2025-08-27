@@ -381,61 +381,71 @@ class _VideoEditorScreenState extends State<VideoEditorScreen> {
           ),
         ),
 
-        // Bottom Toolbar (restored)
-        Consumer<VideoEditorProvider>(
-          builder: (context, provider, child) {
-            return Container(
-              color: Colors.grey[900],
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              height: 56,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      provider.showTimeline ? Icons.timeline : Icons.timeline_outlined,
-                      color: Colors.white,
+        // Bottom Toolbar (wrapped in SafeArea)
+        SafeArea(
+          top: false,
+          left: false,
+          right: false,
+          child: Consumer<VideoEditorProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                color: Colors.grey[900],
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                height: 56,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        provider.showTimeline ? Icons.timeline : Icons.timeline_outlined,
+                        color: Colors.white,
+                      ),
+                      tooltip: 'Timeline',
+                      onPressed: provider.toggleTimeline,
                     ),
-                    tooltip: 'Timeline',
-                    onPressed: provider.toggleTimeline,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      provider.showFilters ? Icons.tune : Icons.tune_outlined,
-                      color: Colors.white,
+                    IconButton(
+                      icon: Icon(
+                        provider.showFilters ? Icons.tune : Icons.tune_outlined,
+                        color: Colors.white,
+                      ),
+                      tooltip: 'Filters',
+                      onPressed: provider.toggleFilters,
                     ),
-                    tooltip: 'Filters',
-                    onPressed: provider.toggleFilters,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      provider.showCropEditor ? Icons.crop : Icons.crop_outlined,
-                      color: Colors.white,
+                    IconButton(
+                      icon: Icon(
+                        provider.showCropEditor ? Icons.crop : Icons.crop_outlined,
+                        color: Colors.white,
+                      ),
+                      tooltip: 'Crop',
+                      onPressed: provider.toggleCropEditor,
                     ),
-                    tooltip: 'Crop',
-                    onPressed: provider.toggleCropEditor,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      provider.showRotateEditor ? Icons.rotate_right : Icons.rotate_right_outlined,
-                      color: Colors.white,
+                    IconButton(
+                      icon: Icon(
+                        provider.showRotateEditor ? Icons.rotate_right : Icons.rotate_right_outlined,
+                        color: Colors.white,
+                      ),
+                      tooltip: 'Rotate',
+                      onPressed: provider.toggleRotateEditor,
                     ),
-                    tooltip: 'Rotate',
-                    onPressed: provider.toggleRotateEditor,
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            );
-          },
+                    const Spacer(),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
 
-        // Bottom Panel
+        // Bottom Panel (Expanded wraps SafeArea so Expanded stays under Column)
         if (provider.showTimeline || provider.showFilters || provider.showTextEditor || provider.showAudioEditor || provider.showCropEditor || provider.showRotateEditor)
           Expanded(
             flex: 2,
-            child: Container(
-              color: Colors.grey[900],
-              child: _buildBottomPanel(provider),
+            child: SafeArea(
+              top: false,
+              left: false,
+              right: false,
+              child: Container(
+                color: Colors.grey[900],
+                child: _buildBottomPanel(provider),
+              ),
             ),
           ),
       ],

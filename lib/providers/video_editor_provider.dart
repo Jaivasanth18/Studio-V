@@ -1333,9 +1333,9 @@ class VideoEditorProvider extends ChangeNotifier {
       final elapsed = DateTime.now().difference(_playbackStartTime!);
       final newPosition = _playbackStartPosition! + elapsed;
       
-      // Clamp to project end (end of last clip)
-      if (newPosition >= projectDuration) {
-        _currentPosition = projectDuration;
+      // Clamp to dynamic total duration (includes audio overlays)
+      if (newPosition >= totalDuration) {
+        _currentPosition = totalDuration;
         _isPlaying = false;
         _stopTimelineClock();
         _previewController?.pause();
